@@ -7,6 +7,7 @@ import static java.lang.invoke.MethodType.*;
 import java.lang.invoke.SwitchPoint;
 import java.util.Random;
 
+@SuppressWarnings("unused")
 public class BasicHandles {
 
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.lookup();
