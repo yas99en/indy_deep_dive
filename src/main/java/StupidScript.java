@@ -113,11 +113,11 @@ public class StupidScript {
         public final List<Node> children;
 
         public Node(String op) {
-            this(op, null, Collections.EMPTY_LIST);
+            this(op, null, Collections.<Node>emptyList());
         }
 
         public Node(String op, String arg) {
-            this(op, arg, Collections.EMPTY_LIST);
+            this(op, arg, Collections.<Node>emptyList());
         }
 
         public Node(String op, String arg, List<Node> children) {
@@ -202,8 +202,8 @@ public class StupidScript {
                     output.write(bytes);
                 }
             
-                Class cls = new ClassLoader(getClass().getClassLoader()) {
-                    public Class defineClass(String name, byte[] bytes) {
+                Class<?> cls = new ClassLoader(getClass().getClassLoader()) {
+                    public Class<?> defineClass(String name, byte[] bytes) {
                         return super.defineClass(name, bytes, 0, bytes.length);
                     }
                 }.defineClass("DynLang", bytes);
