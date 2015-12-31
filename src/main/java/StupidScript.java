@@ -7,8 +7,6 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.invoke.MutableCallSite;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import me.qmx.jitescript.CodeBlock;
 import me.qmx.jitescript.JDKVersion;
@@ -106,80 +104,6 @@ public class StupidScript {
         target.invoke(name, arg0, self);
     }
     
-    static class Node {
-
-        public final String op;
-        public final String arg;
-        public final List<Node> children;
-
-        public Node(String op) {
-            this(op, null, Collections.<Node>emptyList());
-        }
-
-        public Node(String op, String arg) {
-            this(op, arg, Collections.<Node>emptyList());
-        }
-
-        public Node(String op, String arg, List<Node> children) {
-            this.op = op;
-            this.arg = arg;
-            this.children = children;
-        }
-    }
-
-    static class Parser {
-
-        List<Node> parse(String script) {
-            String[] lines = script.split("\n");
-
-            return parse(lines, 0);
-        }
-
-        List<Node> parse(String[] lines, int offset) {
-            List<Node> ast = new ArrayList<>(lines.length);
-
-            for (; offset < lines.length; offset++) {
-                String line = lines[offset];
-
-                // blank lines an comments become nops
-                if (line.length() == 0 || line.startsWith("#")) {
-                    ast.add(new Node("nop"));
-                    continue;
-                }
-
-                // check for an argument
-                int space = line.indexOf(' ');
-
-                if (space == -1) {
-                    // no argument
-
-                    if (line.equals("end")) {
-                        // end of function, return ast
-                        return ast;
-                    } else {
-                        ast.add(new Node(line));
-                    }
-                } else {
-                    // one argument
-                    String op = line.substring(0, space);
-                    String arg = line.substring(space + 1);
-
-                    if (op.startsWith("def")) {
-                        // recurse to get children, advance offset past end
-                        List<Node> children = parse(lines, ++offset);
-                        offset += children.size();
-                        ast.add(new Node(op, arg, children));
-                    } else {
-                        // normal operation
-                        ast.add(new Node(op, arg));
-                    }
-                }
-            }
-
-            return ast;
-        }
-    }
-
     static class Compiler {
 
         Runnable compile(final List<Node> ast) {
