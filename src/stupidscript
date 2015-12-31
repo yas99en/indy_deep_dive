@@ -4,5 +4,14 @@ push Goodbye, world
 send 1
 end
 
+def0 hello
+push print
+push Hello, world
+send 1
+end
+
 push goodbye
+send 0
+
+push hello
 send 0
