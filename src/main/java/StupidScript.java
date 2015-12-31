@@ -1,4 +1,5 @@
-import com.headius.invokebinder.Binder;
+import static me.qmx.jitescript.util.CodegenUtils.*;
+
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -8,12 +9,15 @@ import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.invoke.MutableCallSite;
 import java.util.List;
+
+import org.objectweb.asm.Handle;
+import org.objectweb.asm.Opcodes;
+
+import com.headius.invokebinder.Binder;
+
 import me.qmx.jitescript.CodeBlock;
 import me.qmx.jitescript.JDKVersion;
 import me.qmx.jitescript.JiteClass;
-import static me.qmx.jitescript.util.CodegenUtils.*;
-import org.objectweb.asm.Handle;
-import org.objectweb.asm.Opcodes;
 
 public class StupidScript {
     public static void main(String[] args) {
@@ -39,8 +43,8 @@ public class StupidScript {
         System.out.println(arg0);
     }
 
-    public static CallSite dynlang(
-            MethodHandles.Lookup lookup, String name, MethodType type) throws Exception {
+    public static CallSite dynlang(MethodHandles.Lookup lookup, String name, MethodType type) throws Exception {
+        System.out.println("dynlang:" + name);
         MutableCallSite mcs = new MutableCallSite(type);
 
         MethodHandle send = Binder.from(type)
@@ -48,7 +52,6 @@ public class StupidScript {
                 .invokeStatic(lookup, StupidScript.class, "sendImpl");
 
         mcs.setTarget(send);
-
         return mcs;
     }
 

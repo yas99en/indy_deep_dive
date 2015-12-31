@@ -1,6 +1,12 @@
 def0 goodbye
 push print
-push Goodbye, world
+push Goodbye, world1
+send 1
+push print
+push Goodbye, world2
+send 1
+push print
+push Goodbye, world3
 send 1
 end
 
@@ -13,5 +19,8 @@ end
 push goodbye
 send 0
 
-push hello
+push goodbye
 send 0
+
+#push hello
+#send 0
