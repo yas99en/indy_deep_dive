@@ -135,8 +135,8 @@ public class SimpleBinding {
             }
         }.toBytes(JDKVersion.V1_7);
 
-        Class cls = new ClassLoader(SimpleBinding.class.getClassLoader()) {
-            public Class defineClass(String name, byte[] bytes) {
+        Class<?> cls = new ClassLoader(SimpleBinding.class.getClassLoader()) {
+            public Class<?> defineClass(String name, byte[] bytes) {
                 return super.defineClass(name, bytes, 0, bytes.length);
             }
         }.defineClass("SimpleIndy", bytes);
