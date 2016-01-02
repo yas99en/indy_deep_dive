@@ -125,7 +125,7 @@ public class StupidScript {
             try {
                 
                 // save class bytes to disk
-                try (FileOutputStream output = new FileOutputStream("DynLang.class")) {
+                try (FileOutputStream output = new FileOutputStream("target/classes/DynLang.class")) {
                     output.write(bytes);
                 }
             
